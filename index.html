@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Compass</title>
+    <link rel="icon" href="image/logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="image/logo.png" alt="Cash Compass Logo">
+            <h2>Cash Compass</h2>
+        </div>
+        <nav>
+            <ul> <li> <button class="nav-link active" data-page="dashboard">Dashboard</button> </li>
+                <li> <button class="nav-link" data-page="transactions">Transactions</button> </li>
+                <li> <button class="nav-link" data-page="reports">Reports</button> </li>
+                <li> <button class="nav-link" data-page="settings">Settings</button> </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <section id="dashboard" class="page">
+            <div class="page-header"> <h1>Dashboard</h1> <button class="add-transaction-btn">+ Add Transaction</button> </div>
+            <div class="summary-cards">
+                <div class="card"> <h3>Total Balance</h3> <p id="total-balance">$0.00</p> </div>
+                <div class="card"> <h3>Total Income</h3> <p id="total-income">$0.00</p> </div>
+                <div class="card"> <h3>Total Expenses</h3> <p id="total-expenses">$0.00</p> </div>
+            </div>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h2>Spending by Category</h2>
+                    <canvas id="category-chart"></canvas>
+                </div>
+                <div class="card">
+                    <h2>Monthly Budget</h2>
+                    <p>Budget: <span id="monthly-budget">$0.00</span></p>
+                    <progress id="budget-progress" value="0" max="100"></progress>
+                    <p>Amount Spent: <span id="budget-spent">$0.00</span></p>
+                    <p>Remaining: <span id="budget-remaining">$0.00</span></p>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Recent Transactions</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr> <th>Date</th> <th>Description</th> <th>Category</th> <th>Amount</th> </tr>
+                        </thead>
+                        <tbody id="recent-transactions"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section id="transactions" class="page" hidden>
+            <div class="page-header"> <h1>Transactions</h1> <button class="add-transaction-btn">+ Add Transaction</button> </div>
+            <div class="filter-container">
+                <input type="search" id="search-transaction" placeholder="Search transactions..." aria-label="Search transactions">
+                <select id="category-filter" aria-label="Filter by category">
+                    <option value="all">All Categories</option>
+                    <option value="Food">Food</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Education">Education</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="card">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr> <th>Date</th> <th>Description</th> <th>Category</th> <th>Amount</th> <th>Actions</th> </tr>
+                        </thead>
+                        <tbody id="transaction-list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section id="reports" class="page" hidden>
+            <div class="page-header"> <h1>Reports</h1> <input type="month" id="report-month" aria-label="Report month"> </div>
+            <div class="reports-grid">
+                <div class="card">
+                    <h2>Monthly Spending</h2>
+                    <canvas id="monthly-chart"></canvas>
+                </div>
+                <div class="card">
+                    <h2>Monthly Summary</h2>
+                    <p>Income: <span id="report-income">$0.00</span></p>
+                    <p>Expenses: <span id="report-expenses">$0.00</span></p>
+                    <p>Balance: <span id="report-balance">$0.00</span></p>
+                </div>
+            </div>
+        </section>
+        <section id="settings" class="page" hidden>
+            <div class="page-header"> <h1>Settings</h1> </div>
+            <div class="card">
+                <h2>Monthly Budget</h2>
+                <form id="budget-form">
+                    <label for="budget-amount">Budget Amount ($)</label>
+                    <input type="number" id="budget-amount" min="0" step="0.01" placeholder="Enter monthly budget" required>
+                    <button type="submit">Save Budget</button>
+                </form>
+                <p id="budget-message" aria-live="polite"></p>
+            </div>
+            <div class="card">
+                <h2>Currency Converter</h2>
+                <form id="currency-form">
+                    <label for="currency-amount">Amount</label>
+                    <input type="number" id="currency-amount" min="0.01" step="0.01" placeholder="Enter amount" required>
+                    <label for="from-currency">From</label>
+                    <select id="from-currency">
+                        <option value="USD">USD</option>
+                        <option value="NPR">NPR</option>
+                        <option value="INR">INR</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="CAD">CAD</option>
+                        <option value="AUD">AUD</option>
+                    </select>
+                    <label for="to-currency">To</label>
+                    <select id="to-currency">
+                        <option value="NPR">NPR</option>
+                        <option value="USD">USD</option>
+                        <option value="INR">INR</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="CAD">CAD</option>
+                        <option value="AUD">AUD</option>
+                    </select>
+                    <button type="submit">Convert</button>
+                </form>
+                <p id="conversion-result" aria-live="polite"></p>
+            </div>
+        </section>
+    </main>
+    <dialog id="transaction-modal" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <h2 id="modal-title">Add Transaction</h2>
+            <form id="transaction-form">
+                <fieldset>
+                    <legend>Transaction Type</legend>
+                    <label> <input type="radio" name="transaction-type" value="income"> Income </label>
+                    <label> <input type="radio" name="transaction-type" value="expense" checked> Expense </label>
+                </fieldset>
+                <label for="transaction-amount">Amount ($)</label>
+                <input type="number" id="transaction-amount" min="0.01" step="0.01" placeholder="Enter amount" required>
+                <label for="transaction-category">Category</label>
+                <select id="transaction-category" required>
+                    <option value="">Select Category</option>
+                    <option value="Food">Food</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Education">Education</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label for="transaction-date">Date</label>
+                <input type="date" id="transaction-date" required>
+                <label for="transaction-description">Description</label>
+                <input type="text" id="transaction-description" placeholder="Enter description" required>
+                <p id="form-error" role="alert"></p>
+                <div class="modal-buttons">
+                    <button type="button" id="cancel-transaction">Cancel</button>
+                    <button type="submit" id="save-transaction">Add Transaction</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+    <script src="script.js"></script>
+</body>
+</html>
